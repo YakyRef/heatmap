@@ -23,12 +23,13 @@ onmessage = (e) => {
       hour = new Date(inputData[i]).getHours();
       current = res[arrayOfWeekdays[day]] || null;
       if (!current) {
+        //
         res[arrayOfWeekdays[day]] = { [hour]: 1 };
       } else {
         if (!current[hour]) {
-          res[arrayOfWeekdays[day]][hour] = 1;
+          current[hour] = 1;
         } else {
-          res[arrayOfWeekdays[day]][hour] = res[arrayOfWeekdays[day]][hour] + 1;
+          current[hour] = current[hour] + 1;
         }
       }
 
