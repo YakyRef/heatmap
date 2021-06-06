@@ -27,16 +27,13 @@ export default function Heatmap({ activity }) {
 
   function getColorByCount(day, hour) {
     let color = heatMapColorforValue(activityMap[day][hour] || 0);
-
     return <span className="heatmap__point" style={{ color: color }} />;
   }
 
   function renderDayLine(day) {
     return (
       <div key={day} className="heatmap__line">
-        <span className="heatmap__line__day-title">
-          {arrayOfWeekdays[day]}{" "}
-        </span>
+        <span className="heatmap__line__day-title">{arrayOfWeekdays[day]}</span>
         <div key={day} className="heatmap__line__points">
           {Array.from({ length: dailyBucketSize }, (x, i) =>
             getColorByCount(day, i)
@@ -45,9 +42,28 @@ export default function Heatmap({ activity }) {
       </div>
     );
   }
+
+  function renderHoursLine() {
+    return (
+      <div className="heatmap__line heatmap__line__hours">
+        <span className="heatmap__line__day-title">{""}</span>
+        {Array.from({ length: dailyBucketSize }, (x, i) => (
+          <div className="heatmap__line__points">{i}</div>
+        ))}
+      </div>
+    );
+  }
+  function renderHeatMap() {
+    return (
+      <>
+        {Object.keys(activityMap).map(renderDayLine)}
+        {renderHoursLine()}
+      </>
+    );
+  }
   return (
     <div className="heatmap">
-      {activityMap ? Object.keys(activityMap).map(renderDayLine) : "Loading..."}
+      {activityMap ? renderHeatMap() : "Loading..."}
     </div>
   );
 }
