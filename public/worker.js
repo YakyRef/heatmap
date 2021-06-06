@@ -1,12 +1,3 @@
-const arrayOfWeekdays = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
-];
 onmessage = (e) => {
   const inputData = e.data;
   if (!inputData) {
@@ -21,10 +12,9 @@ onmessage = (e) => {
     while (i < arrayLength) {
       day = new Date(inputData[i]).getDay();
       hour = new Date(inputData[i]).getHours();
-      current = res[arrayOfWeekdays[day]] || null;
+      current = res[day] || null;
       if (!current) {
-        //
-        res[arrayOfWeekdays[day]] = { [hour]: 1 };
+        res[day] = { [hour]: 1 };
       } else {
         if (!current[hour]) {
           current[hour] = 1;
