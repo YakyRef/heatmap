@@ -30,6 +30,7 @@ export default function Heatmap({ activity }) {
     return (
       <span
         key={`${day}_${hour}`}
+        onClick={() => excludePoint(day, hour)}
         className="heatmap__point"
         style={{ color: color }}
       />
@@ -68,6 +69,10 @@ export default function Heatmap({ activity }) {
         {renderHoursLine()}
       </>
     );
+  }
+
+  function excludePoint(day, hour) {
+    console.log(day, hour);
   }
   return (
     <div className="heatmap">
