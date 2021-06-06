@@ -15,12 +15,17 @@ export default function Heatmap({ activity }) {
     }
   }, []);
 
+  function getColorByCount(count) {
+    return count;
+  }
   function renderDayLine(day) {
     return (
       <div key={day}>
         <span>{arrayOfWeekdays[day]} </span>
         {Array.from({ length: dailyBucketSize }, (x, i) => (
-          <span>{activityMap[day][i] ? activityMap[day][i] : 0} </span>
+          <span>
+            {activityMap[day][i] ? getColorByCount(activityMap[day][i]) : 0}
+          </span>
         ))}
       </div>
     );
