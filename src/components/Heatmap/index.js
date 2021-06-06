@@ -8,17 +8,24 @@ export default function Heatmap({ activity }) {
   const [colorsMaxRange, setColorsMaxRange] = useState(250);
 
   useEffect(() => {
-    if (window.Worker && activity) {
+    if (window.Worker && activity && !activityMap) {
       const myWorker = new Worker("worker.js");
       myWorker.postMessage(activity);
       myWorker.onmessage = function (e) {
         setActivityMap(e.data);
-        console.log(e.data);
       };
     }
-  }, []);
+  }, [activityMap]);
 
   function heatMapColorforValue(heats) {
+    // no heats : the color will be #f0f6ff
+    if (heats === undefined) {
+      return "#f0f6ff";
+    }
+    // handle excluded points
+    if (heats === -1) {
+      return "black";
+    }
     let value = heats > colorsMaxRange ? colorsMaxRange : heats;
     value = value / colorsMaxRange;
     var h = (1.0 - value) * 240;
@@ -26,7 +33,7 @@ export default function Heatmap({ activity }) {
   }
 
   function renderPoint(day, hour) {
-    let color = heatMapColorforValue(activityMap[day][hour] || 0);
+    let color = heatMapColorforValue(activityMap[day][hour]);
     return (
       <span
         key={`${day}_${hour}`}
@@ -72,8 +79,15 @@ export default function Heatmap({ activity }) {
   }
 
   function excludePoint(day, hour) {
-    console.log(day, hour);
+    const res = {
+      [day]: {
+        ...activityMap[day],
+        [hour]: -1
+      }
+    };
+    setActivityMap({ ...activityMap, ...res });
   }
+
   return (
     <div className="heatmap">
       {activityMap ? renderHeatMap() : "Loading..."}

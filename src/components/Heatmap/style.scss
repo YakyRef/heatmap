@@ -25,12 +25,16 @@
       }
     }
   }
- 
- 
+  
   &__point{
+    cursor: pointer;
     font-size: 25px;        
+    transition: transform .1s ease-in-out;
     &::after{
       content: "\2022";
+    }
+    &:hover{
+      transform: scale(2)
     }
     
   }
