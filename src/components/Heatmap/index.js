@@ -34,10 +34,14 @@ export default function Heatmap({ activity }) {
   function renderDayLine(day) {
     return (
       <div key={day} className="heatmap__line">
-        <span className="heatmap__day-title">{arrayOfWeekdays[day]} </span>
-        {Array.from({ length: dailyBucketSize }, (x, i) =>
-          getColorByCount(day, i)
-        )}
+        <span className="heatmap__line__day-title">
+          {arrayOfWeekdays[day]}{" "}
+        </span>
+        <div key={day} className="heatmap__line__points">
+          {Array.from({ length: dailyBucketSize }, (x, i) =>
+            getColorByCount(day, i)
+          )}
+        </div>
       </div>
     );
   }
