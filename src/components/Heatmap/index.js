@@ -25,18 +25,24 @@ export default function Heatmap({ activity }) {
     return "hsl(" + h + ", 100%, 50%)";
   }
 
-  function getColorByCount(day, hour) {
+  function renderPoint(day, hour) {
     let color = heatMapColorforValue(activityMap[day][hour] || 0);
-    return <span className="heatmap__point" style={{ color: color }} />;
+    return (
+      <span
+        key={`${day}_${hour}`}
+        className="heatmap__point"
+        style={{ color: color }}
+      />
+    );
   }
 
   function renderDayLine(day) {
     return (
-      <div key={day} className="heatmap__line">
+      <div key={`line_${day}`} className="heatmap__line">
         <span className="heatmap__line__day-title">{arrayOfWeekdays[day]}</span>
-        <div key={day} className="heatmap__line__points">
+        <div className="heatmap__line__points">
           {Array.from({ length: dailyBucketSize }, (x, i) =>
-            getColorByCount(day, i)
+            renderPoint(day, i)
           )}
         </div>
       </div>
@@ -48,7 +54,9 @@ export default function Heatmap({ activity }) {
       <div className="heatmap__line heatmap__line__hours">
         <span className="heatmap__line__day-title">{""}</span>
         {Array.from({ length: dailyBucketSize }, (x, i) => (
-          <div className="heatmap__line__points">{i}</div>
+          <div key={`hour_line_${i}`} className="heatmap__line__points">
+            {i}
+          </div>
         ))}
       </div>
     );
